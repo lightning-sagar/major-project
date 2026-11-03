@@ -1,0 +1,10 @@
+{
+  "title": "Ultrasonic Distance Measurement",
+  "board": "Arduino Uno",
+  "description": "Measure distance using HC-SR04 ultrasonic sensor and display on Serial Monitor.",
+  "objectives": [
+    "Interface HC-SR04 ultrasonic sensor",
+    "Use pulseIn to measure echo time",
+    "Calculate distance from time of flight"
+  ]
+}

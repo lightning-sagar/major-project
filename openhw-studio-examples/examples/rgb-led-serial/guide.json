@@ -1,0 +1,10 @@
+{
+  "title": "RGB LED with Serial Monitor",
+  "board": "Arduino Uno",
+  "description": "Type color names via Serial Monitor to control an RGB LED through multiple color combinations.",
+  "objectives": [
+    "Wire an RGB LED with current-limiting resistors on three channels",
+    "Read and parse Serial Monitor commands in Arduino code",
+    "Control individual color channels using digitalWrite"
+  ]
+}

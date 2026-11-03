@@ -1,0 +1,65 @@
+{
+    "type": "openhw-lcd1602-i2c",
+    "label": "LCD 16x2 (I2C)",
+    "description": "16x2 Character LCD Display with I2C Backpack",
+    "group": "Displays",
+    "w": 315,
+    "h": 135,
+    "attrs": {
+        "i2cAddress": "0x27",
+        "color": "blue",
+        "breadboard": {
+            "anchorPin": "GND"
+        }
+    },
+    "pins": [
+        {
+            "id": "GND",
+            "x": 15,
+            "y": 30,
+            "type": "power",
+            "description": "Ground"
+        },
+        {
+            "id": "VCC",
+            "x": 15,
+            "y": 45,
+            "type": "power",
+            "description": "Power (5V)"
+        },
+        {
+            "id": "SDA",
+            "x": 15,
+            "y": 60,
+            "type": "bidi",
+            "description": "I2C Data"
+        },
+        {
+            "id": "SCL",
+            "x": 15,
+            "y": 75,
+            "type": "bidi",
+            "description": "I2C Clock"
+        }
+    ],
+    "autocoding": {
+        "libraries": ["LiquidCrystal I2C"],
+        "arduino": {
+            "globals": "#include <Wire.h>\n#include <LiquidCrystal_I2C.h>\n\nLiquidCrystal_I2C lcd_${COMP_SUFFIX}(0x27, 16, 2);",
+            "setup": "lcd_${COMP_SUFFIX}.init();\nlcd_${COMP_SUFFIX}.backlight();\nlcd_${COMP_SUFFIX}.setCursor(0, 0);\nlcd_${COMP_SUFFIX}.print(\"WebHardware!\");",
+            "loop": "unsigned long t_${COMP_SUFFIX} = millis() / 1000;\nlcd_${COMP_SUFFIX}.setCursor(0, 1);\nlcd_${COMP_SUFFIX}.print(\"Timer: \");\nlcd_${COMP_SUFFIX}.print(t_${COMP_SUFFIX});\nlcd_${COMP_SUFFIX}.print(\" s   \");\ndelay(500);"
+        }
+    },
+    "autowiring": {
+      "connections": [
+        { "from": "GND", "to": "arduino:GND" },
+        { "from": "VCC", "to": "arduino:5V" },
+        { "from": "SDA", "to": "arduino:A4", "i2c": true },
+        { "from": "SCL", "to": "arduino:A5", "i2c": true }
+      ]
+    },
+    "telemetry": {
+      "template": "Lines=${state.lines.length}, Illuminated=${state.illuminated}, Backlight=${state.backlight}",
+      "criticalKeys": ["state.lines", "state.illuminated"]
+    }
+}

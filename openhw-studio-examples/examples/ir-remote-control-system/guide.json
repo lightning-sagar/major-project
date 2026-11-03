@@ -1,0 +1,12 @@
+{
+  "title": "IR Remote Control System",
+  "board": "Arduino Uno",
+  "description": "Build an IR remote control system using an IR receiver module and LED. The LED toggles ON/OFF whenever a button on the IR remote is pressed.",
+  "objectives": [
+    "Receive infrared signals from an IR remote using the IR receiver module",
+    "Decode remote control button presses using the IRremote library",
+    "Control an LED connected to pin D13",
+    "Toggle the LED state when an IR signal is received",
+    "Understand wireless infrared communication and remote control interfacing"
+  ]
+}

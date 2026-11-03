@@ -1,0 +1,32 @@
+{
+    "type": "openhw-dht22",
+    "label": "DHT22",
+    "description": "DHT22 Temperature and Humidity Sensor",
+    "group": "Sensors",
+    "width": 105,
+    "height": 200,
+    "w": 105,
+    "h": 200,
+    "attrs": {},
+    "pins": [
+        { "id": "VCC", "label": "VCC", "x": 15, "y": 115, "type": "power" },
+        { "id": "DATA", "label": "DATA", "x": 25, "y": 115, "type": "digital" },
+        { "id": "NC",  "label": "NC",  "x": 35, "y": 115, "type": "digital" },
+        { "id": "GND", "label": "GND", "x": 45, "y": 115, "type": "power" }
+    ],
+    "autocoding": {
+        "libraries": ["DHT sensor library"],
+        "arduino": {
+            "globals": "#include <DHT.h>\n#define DHTPIN_${COMP_SUFFIX} ${DATA}\n#define DHTTYPE_${COMP_SUFFIX} DHT22\nDHT dht_${COMP_SUFFIX}(DHTPIN_${COMP_SUFFIX}, DHTTYPE_${COMP_SUFFIX});",
+            "setup": "dht_${COMP_SUFFIX}.begin();",
+            "loop": "float humidity_${COMP_SUFFIX} = dht_${COMP_SUFFIX}.readHumidity();\nfloat temperature_${COMP_SUFFIX} = dht_${COMP_SUFFIX}.readTemperature();\nif (isnan(humidity_${COMP_SUFFIX}) || isnan(temperature_${COMP_SUFFIX})) {\n  Serial.println(\"DHT22_${COMP_SUFFIX} read failed!\");\n} else {\n  Serial.print(\"Humidity: \");\n  Serial.print(humidity_${COMP_SUFFIX});\n  Serial.print(\" %  Temperature: \");\n  Serial.print(temperature_${COMP_SUFFIX});\n  Serial.println(\" C\");\n}\ndelay(2000);"
+        }
+    },
+    "autowiring": {
+        "connections": [
+            { "from": "VCC", "to": "arduino:5V" },
+            { "from": "GND", "to": "arduino:GND" },
+            { "from": "DATA", "to": "arduino:4|5|6|7|8|9|10|11|12" }
+        ]
+    }
+}

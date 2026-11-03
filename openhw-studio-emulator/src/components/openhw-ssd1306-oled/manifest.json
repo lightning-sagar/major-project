@@ -1,0 +1,35 @@
+{
+    "type": "openhw-ssd1306-oled",
+    "label": "SSD1306 OLED 128x64",
+    "group": "Outputs",
+    "w": 135,
+    "h": 120,
+    "attrs": { "i2cAddress": "0x3C", "breadboard": { "anchorPin": "GND" } },
+    "telemetry": {
+        "template": "vramDirty=${state.vramDirty}, updateCount=${state.updateCount}, i2cBytes=${state.i2cBytes}",
+        "criticalKeys": ["state.vramDirty", "state.updateCount"]
+    },
+    "pins": [
+        { "id": "GND", "x": 30, "y": 7.5, "type": "power" },
+        { "id": "VCC", "x": 45, "y": 7.5, "type": "power" },
+        { "id": "SCL", "x": 60, "y": 7.5, "type": "input" },
+        { "id": "SDA", "x": 75, "y": 7.5, "type": "bidirectional" }
+    ],
+    "autowiring": {
+        "externalPullups": false,
+        "connections": [
+            { "from": "GND", "to": "arduino:GND" },
+            { "from": "VCC", "to": "arduino:5V" },
+            { "from": "SCL", "to": "arduino:A5", "i2c": true },
+            { "from": "SDA", "to": "arduino:A4", "i2c": true }
+        ]
+    },
+    "autocoding": {
+        "libraries": ["Adafruit SSD1306", "Adafruit GFX Library"],
+        "arduino": {
+            "globals": "#include <Wire.h>\n#include <Adafruit_GFX.h>\n#include <Adafruit_SSD1306.h>\nAdafruit_SSD1306 display_${COMP_SUFFIX}(128, 64, &Wire, -1);",
+            "setup": "display_${COMP_SUFFIX}.begin(SSD1306_SWITCHCAPVCC, 0x3C);\ndisplay_${COMP_SUFFIX}.clearDisplay();\ndisplay_${COMP_SUFFIX}.setTextSize(2);\ndisplay_${COMP_SUFFIX}.setTextColor(SSD1306_WHITE);\ndisplay_${COMP_SUFFIX}.setCursor(8, 24);\ndisplay_${COMP_SUFFIX}.println(\"Hello!\");\ndisplay_${COMP_SUFFIX}.display();",
+            "loop": "display_${COMP_SUFFIX}.clearDisplay();\ndisplay_${COMP_SUFFIX}.setTextSize(1);\ndisplay_${COMP_SUFFIX}.setCursor(0, 0);\ndisplay_${COMP_SUFFIX}.println(\"SSD1306 OLED\");\ndisplay_${COMP_SUFFIX}.setTextSize(2);\ndisplay_${COMP_SUFFIX}.setCursor(20, 30);\ndisplay_${COMP_SUFFIX}.print(millis() / 1000);\ndisplay_${COMP_SUFFIX}.println(\" s\");\ndisplay_${COMP_SUFFIX}.display();\ndelay(1000);"
+        }
+    }
+}

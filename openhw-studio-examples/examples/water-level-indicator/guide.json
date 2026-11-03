@@ -1,0 +1,10 @@
+{
+  "title": "Water Level Indicator with Alarm",
+  "board": "Arduino Uno",
+  "description": "Monitor water level and trigger alarm when tank is full.",
+  "objectives": [
+    "Read analog water level sensor",
+    "Control multiple LEDs for level indication",
+    "Trigger buzzer alarm at full level"
+  ]
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 64" width="300" height="64">
+  <g fill="#ff6a3d">
+    <rect x="2" y="17" width="8" height="4" rx="1"/><rect x="2" y="30" width="8" height="4" rx="1"/><rect x="2" y="43" width="8" height="4" rx="1"/>
+    <rect x="54" y="17" width="8" height="4" rx="1"/><rect x="54" y="30" width="8" height="4" rx="1"/><rect x="54" y="43" width="8" height="4" rx="1"/>
+  </g>
+  <rect x="9" y="8" width="46" height="48" rx="9" fill="#ff6a3d"/>
+  <path d="M18 22 L24.5 42 L32 29 L39.5 42 L46 22" fill="none" stroke="#160a05" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="18" cy="22" r="3.4" fill="#160a05"/>
+  <circle cx="46" cy="22" r="3.4" fill="#160a05"/>
+  <circle cx="32" cy="29" r="2.4" fill="#ff6a3d" stroke="#160a05" stroke-width="2"/>
+  <text x="74" y="43" font-family="'Bricolage Grotesque','Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="32" font-weight="800" letter-spacing="-1"><tspan fill="#9a958a">web</tspan><tspan fill="#ff6a3d">hardware</tspan></text>
+</svg>

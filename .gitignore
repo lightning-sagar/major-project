@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+.DS_Store
+
+# Backend runtime state
+openhw-studio-backend/data/
+openhw-studio-backend/builds/
+openhw-studio-backend/temp/
+
+# Test output
+playwright-report/
+test-results/

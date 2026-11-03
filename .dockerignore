@@ -1,0 +1,19 @@
+# Keep the build context small: it's the whole repo root.
+**/node_modules
+**/.git
+**/dist
+**/.env
+**/.env.local
+**/playwright-report
+**/test-results
+**/coverage
+**/*.log
+
+# Backend runtime state (rebuilt inside the containers)
+openhw-studio-backend/data
+openhw-studio-backend/builds
+openhw-studio-backend/temp
+
+# Frontend scratch files
+OpenHW-studio-frontend/scratch
+OpenHW-studio-frontend/temp

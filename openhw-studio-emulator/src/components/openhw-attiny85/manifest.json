@@ -1,0 +1,21 @@
+{
+    "type": "openhw-attiny85",
+    "label": "ATtiny85 Board",
+    "description": "A minimal breakout board for the ATtiny85 microcontroller.",
+    "group": "Boards",
+    "w": 120, "h": 110,
+    "pins": [
+        { "id": "P5", "x": 108, "y": 16, "type": "digital", "description": "PB5 / RESET" },
+        { "id": "P4", "x": 108, "y": 31, "type": "digital", "description": "PB4 / A2" },
+        { "id": "P3", "x": 108, "y": 46, "type": "digital", "description": "PB3 / A3" },
+        { "id": "P2", "x": 108, "y": 61, "type": "digital", "description": "PB2 / A1" },
+        { "id": "P1", "x": 108, "y": 76, "type": "digital", "description": "PB1" },
+        { "id": "P0", "x": 108, "y": 91, "type": "digital", "description": "PB0" },
+        { "id": "5V",  "x": 34, "y": 93, "type": "power", "description": "5V Power" },
+        { "id": "GND", "x": 56, "y": 93, "type": "power", "description": "Ground" },
+        { "id": "VIN", "x": 78, "y": 93, "type": "power", "description": "Voltage In" }
+    ],
+    "autowiring": {
+        "connections": []
+    }
+}

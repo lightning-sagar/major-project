@@ -1,0 +1,137 @@
+{
+  "title": "Smart Home Automation System Circuit Evaluation",
+  "description": "Automatic evaluation criteria for smart home automation system circuit implementation",
+  "version": "2.0",
+  "passingThreshold": 85,
+  "evaluationCriteria": {
+    "wiringAccuracy": {
+      "weight": 0.43,
+      "description": "Correct electrical connections between components",
+      "requiredConnections": [
+        {
+          "from": {
+            "component": "esp32",
+            "pin": "2"
+          },
+          "to": {
+            "component": "led",
+            "terminal": "a"
+          }
+        },
+        {
+          "from": {
+            "component": "esp32",
+            "pin": "4"
+          },
+          "to": {
+            "component": "relay",
+            "terminal": "in"
+          }
+        },
+        {
+          "from": {
+            "component": "esp32",
+            "pin": "5"
+          },
+          "to": {
+            "component": "buzzer",
+            "terminal": "signal"
+          }
+        }
+      ]
+    },
+    "codeFunctionality": {
+      "weight": 0.37,
+      "description": "Arduino code that implements required functionality",
+      "requiredFunctions": [
+        "pinMode",
+        "Serial.begin",
+        "digitalWrite"
+      ],
+      "expectedBehavior": {
+        "pinMode": "OUTPUT/INPUT",
+        "pattern": "Smart Home Automation System"
+      }
+    },
+    "components": {
+      "weight": 0.2,
+      "description": "Required components for the circuit",
+      "required": [
+        {
+          "type": "esp32",
+          "count": 1
+        },
+        {
+          "type": "led",
+          "count": 1
+        },
+        {
+          "type": "dc-motor",
+          "count": 1
+        },
+        {
+          "type": "buzzer",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "demoImages": [
+    {
+      "id": "circuit-layout",
+      "name": "Correct Circuit Layout",
+      "filename": "smart-home-automation-circuit.png",
+      "description": "Expected component placement and wiring"
+    },
+    {
+      "id": "simulation-result",
+      "name": "Working Simulation",
+      "filename": "smart-home-automation-simulation.png",
+      "description": "Expected simulation output"
+    }
+  ],
+  "scoring": {
+    "wiringAccuracy": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All connections are correct!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most connections are correct with minor issues"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Wiring needs significant correction"
+      }
+    },
+    "codeFunctionality": {
+      "excellent": {
+        "min": 90,
+        "feedback": "Code works perfectly!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Code works but may need minor improvements"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Code functionality needs significant work"
+      }
+    },
+    "components": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All required components are present!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most required components are present."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing one or more required components."
+      }
+    }
+  }
+}

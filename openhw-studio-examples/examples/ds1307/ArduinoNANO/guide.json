@@ -1,0 +1,10 @@
+{
+  "title": "Real Time Clock (DS1307) Interface",
+  "board": "Arduino Nano",
+  "description": "Interface a DS1307 Real Time Clock module with an Arduino Nano using I2C communication to read and set the time.",
+  "objectives": [
+    "Connect DS1307 RTC module to Arduino Nano via I2C",
+    "Read time and date from the RTC",
+    "Print the time and date to the Serial Monitor"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Motion Sensor with Alarm",
+  "board": "Arduino Uno",
+  "description": "Detect motion using PIR sensor and trigger an alarm with LED and buzzer.",
+  "objectives": [
+    "Interface PIR motion sensor",
+    "Detect digital HIGH/LOW from sensor",
+    "Trigger buzzer and LED on motion"
+  ]
+}

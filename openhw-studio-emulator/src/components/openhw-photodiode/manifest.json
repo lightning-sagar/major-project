@@ -1,0 +1,36 @@
+{
+    "type": "openhw-photodiode",
+    "label": "Photodiode",
+    "group": "Sensors",
+    "w": 15,
+    "h": 45,
+    "attrs": {
+        "light": 0
+    },
+    "pins": [
+        {
+            "id": "A",
+            "x": 0,
+            "y": 45,
+            "type": "analog"
+        },
+        {
+            "id": "C",
+            "x": 15,
+            "y": 45,
+            "type": "power"
+        }
+    ],
+    "autocoding": {
+        "arduino": {
+            "setup": "Serial.begin(115200);\nSerial.println(\"Photodiode initialized.\");",
+            "loop": "int lightVal = analogRead(${A});\nSerial.print(\"Photodiode: \");\nSerial.println(lightVal);\ndelay(100);"
+        }
+    },
+    "autowiring": {
+        "connections": [
+            { "from": "C", "to": "arduino:5V" },
+            { "from": "A", "to": "arduino:A0|A1|A2|A3|A4|A5" }
+        ]
+    }
+}

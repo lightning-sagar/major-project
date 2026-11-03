@@ -1,0 +1,10 @@
+{
+  "title": "Servo Motor Control using Potentiometer",
+  "board": "Arduino Uno",
+  "description": "Control servo angle using a potentiometer.",
+  "objectives": [
+    "Use Servo library",
+    "Read analog potentiometer values",
+    "Map values to servo angle range"
+  ]
+}

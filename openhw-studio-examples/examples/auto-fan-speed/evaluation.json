@@ -1,0 +1,130 @@
+{
+  "title": "Automatic Fan Speed Control Circuit Evaluation",
+  "description": "Automatic evaluation criteria for automatic fan speed control circuit implementation",
+  "version": "2.0",
+  "passingThreshold": 85,
+  "evaluationCriteria": {
+    "wiringAccuracy": {
+      "weight": 0.43,
+      "description": "Correct electrical connections between components",
+      "requiredConnections": [
+        {
+          "from": {
+            "component": "arduino",
+            "pin": "9"
+          },
+          "to": {
+            "component": "motor-driver",
+            "terminal": "pwm"
+          }
+        },
+        {
+          "from": {
+            "component": "arduino",
+            "pin": "a0"
+          },
+          "to": {
+            "component": "tmp36",
+            "terminal": "vout"
+          }
+        }
+      ]
+    },
+    "codeFunctionality": {
+      "weight": 0.37,
+      "description": "Arduino code that implements required functionality",
+      "requiredFunctions": [
+        "pinMode",
+        "Serial.begin",
+        "analogWrite",
+        "analogRead",
+        "map",
+        "delay"
+      ],
+      "expectedBehavior": {
+        "pinMode": "OUTPUT/INPUT",
+        "pattern": "Automatic Fan Speed Control"
+      }
+    },
+    "components": {
+      "weight": 0.2,
+      "description": "Required components for the circuit",
+      "required": [
+        {
+          "type": "arduino",
+          "count": 1
+        },
+        {
+          "type": "tmp36",
+          "count": 1
+        },
+        {
+          "type": "dc-motor",
+          "count": 1
+        },
+        {
+          "type": "l293d",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "demoImages": [
+    {
+      "id": "circuit-layout",
+      "name": "Correct Circuit Layout",
+      "filename": "auto-fan-speed-circuit.png",
+      "description": "Expected component placement and wiring"
+    },
+    {
+      "id": "simulation-result",
+      "name": "Working Simulation",
+      "filename": "auto-fan-speed-simulation.png",
+      "description": "Expected simulation output"
+    }
+  ],
+  "scoring": {
+    "wiringAccuracy": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All connections are correct!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most connections are correct with minor issues"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Wiring needs significant correction"
+      }
+    },
+    "codeFunctionality": {
+      "excellent": {
+        "min": 90,
+        "feedback": "Code works perfectly!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Code works but may need minor improvements"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Code functionality needs significant work"
+      }
+    },
+    "components": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All required components are present!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most required components are present."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing one or more required components."
+      }
+    }
+  }
+}

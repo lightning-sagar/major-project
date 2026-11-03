@@ -1,0 +1,72 @@
+{
+  "title": "Real Time Clock (DS1307) Circuit Evaluation",
+  "description": "Automatic evaluation criteria for DS1307 RTC interface implementation on Raspberry Pi Pico",
+  "version": "1.0",
+  "passingThreshold": 85,
+  "evaluationCriteria": {
+    "codeFunctionality": {
+      "weight": 0.5,
+      "description": "Code that implements required functionality",
+      "requiredFunctions": [
+        "Wire.begin",
+        "Serial.begin",
+        "Wire.requestFrom",
+        "Wire.read",
+        "Wire.beginTransmission",
+        "Wire.write",
+        "Wire.endTransmission"
+      ],
+      "expectedBehavior": {
+        "pattern": "Real Time Clock"
+      }
+    },
+    "components": {
+      "weight": 0.5,
+      "description": "Required components for the circuit",
+      "required": [
+        {
+          "type": "ds1307",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "demoImages": [
+    {
+      "id": "circuit-layout",
+      "name": "Correct Circuit Layout",
+      "filename": "circuit.png",
+      "description": "Expected component placement and wiring for Raspberry Pi Pico"
+    }
+  ],
+  "scoring": {
+    "codeFunctionality": {
+      "excellent": {
+        "min": 90,
+        "feedback": "Code works perfectly!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Code works but may need minor improvements"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Code functionality needs significant work"
+      }
+    },
+    "components": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All required components are present!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most required components are present."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing one or more required components."
+      }
+    }
+  }
+}

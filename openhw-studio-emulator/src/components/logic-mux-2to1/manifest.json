@@ -1,0 +1,54 @@
+{
+    "type": "logic-mux-2to1",
+    "label": "MUX 2:1",
+    "description": "2-to-1 Multiplexer. Selects one of two data inputs based on the select line.",
+    "group": "Logic",
+    "w": 90,
+    "h": 75,
+    "attrs": {},
+    "pins": [
+        {
+            "id": "D0",
+            "x": 0,
+            "y": 15,
+            "type": "digital",
+            "description": "Data input 0 (selected when SEL=LOW)"
+        },
+        {
+            "id": "D1",
+            "x": 0,
+            "y": 45,
+            "type": "digital",
+            "description": "Data input 1 (selected when SEL=HIGH)"
+        },
+        {
+            "id": "SEL",
+            "x": 45,
+            "y": 75,
+            "type": "digital",
+            "description": "Select line"
+        },
+        {
+            "id": "OUT",
+            "x": 90,
+            "y": 30,
+            "type": "digital",
+            "description": "Output"
+        }
+    ],
+    "autowiring": {
+        "connections": [
+            { "from": "D0", "to": "arduino:D2" },
+            { "from": "D1", "to": "arduino:D3" },
+            { "from": "SEL", "to": "arduino:D4" },
+            { "from": "OUT", "to": "arduino:D5", "via": "openhw-resistor", "attrs": { "value": "220" } }
+        ]
+    },
+    "autocoding": {
+        "arduino": {
+            "setup": "Serial.begin(9600);\npinMode(${D0}, OUTPUT);\npinMode(${D1}, OUTPUT);\npinMode(${SEL}, OUTPUT);\npinMode(${OUT}, INPUT);\nSerial.println(\"MUX 2:1 ready\");",
+            "loop": "for (int i=0; i<8; i++) {\n  digitalWrite(${SEL}, (i&4)?HIGH:LOW);\n  digitalWrite(${D0}, (i&1)?HIGH:LOW);\n  digitalWrite(${D1}, (i&2)?HIGH:LOW);\n  delay(5);\n  Serial.print(\"MUX | SEL=\");\n  Serial.print((i&4)?1:0);\n  Serial.print(\" D0=\");\n  Serial.print((i&1)?1:0);\n  Serial.print(\" D1=\");\n  Serial.print((i&2)?1:0);\n  Serial.print(\" -> \");\n  Serial.println(digitalRead(${OUT}));\n  delay(300);\n}"
+        }
+    }
+}
+

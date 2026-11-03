@@ -1,0 +1,10 @@
+{
+  "title": "DC Motor Control using PWM",
+  "board": "Arduino Uno",
+  "description": "Control DC motor speed using PWM signal.",
+  "objectives": [
+    "Generate PWM signals from Arduino",
+    "Control motor speed with analogWrite",
+    "Understand motor driver interface"
+  ]
+}

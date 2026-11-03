@@ -1,0 +1,33 @@
+{
+    "type": "logic-clock-generator",
+    "label": "Clock",
+    "description": "Adjustable Clock Generator. Outputs a continuous square wave.",
+    "group": "Logic",
+    "w": 75,
+    "h": 60,
+    "attrs": {
+        "frequency": "10",
+        "units": "KHz"
+    },
+    "pins": [
+        {
+            "id": "OUT",
+            "x": 75,
+            "y": 30,
+            "type": "digital",
+            "description": "Clock Output"
+        }
+    ],
+    "autowiring": {
+        "connections": [
+            { "from": "OUT", "to": "arduino:D2", "via": "openhw-resistor", "attrs": { "value": "220" } }
+        ]
+    },
+    "autocoding": {
+        "arduino": {
+            "setup": "Serial.begin(9600);\npinMode(${OUT}, INPUT);",
+            "loop": "Serial.print(\"CLK=\");\nSerial.println(digitalRead(${OUT}));\ndelay(100);"
+        }
+    }
+}
+

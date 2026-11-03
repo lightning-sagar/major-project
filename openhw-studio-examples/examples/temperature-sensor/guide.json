@@ -1,0 +1,10 @@
+{
+  "title": "Temperature Sensor (NTC) with Buzzer Alarm",
+  "board": "Arduino Uno",
+  "description": "Read temperature using an NTC thermistor in a voltage divider, display on Serial Monitor, and trigger a buzzer alarm when temperature exceeds 30\u00b0C.",
+  "objectives": [
+    "Understand NTC thermistor voltage divider circuit",
+    "Read analog voltage and convert to temperature",
+    "Use tone() to drive a buzzer alarm above threshold"
+  ]
+}

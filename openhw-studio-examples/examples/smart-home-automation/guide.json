@@ -1,0 +1,10 @@
+{
+  "title": "Smart Home Automation System",
+  "board": "ESP32",
+  "description": "Build a complete smart home system controlling LED, Motor, Buzzer via IoT.",
+  "objectives": [
+    "Set up ESP32 with Blynk IoT",
+    "Control outputs via smartphone",
+    "Integrate multiple actuators"
+  ]
+}

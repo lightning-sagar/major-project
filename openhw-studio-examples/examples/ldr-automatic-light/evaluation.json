@@ -1,0 +1,161 @@
+{
+  "title": "LDR-based Automatic Light Evaluation",
+  "description": "Evaluate LDR module circuit wiring and automatic light control code.",
+  "version": "2.0",
+  "passingThreshold": 75,
+  "evaluationCriteria": {
+    "wiring": {
+      "weight": 0.3,
+      "description": "Correct circuit wiring for LDR module and LED",
+      "checks": [
+        {
+          "description": "LDR module VCC connected to 5V",
+          "required": true,
+          "type": "connection",
+          "from": "ldr_module_1:VCC",
+          "to": "uno1:5V"
+        },
+        {
+          "description": "LDR module GND connected to GND",
+          "required": true,
+          "type": "connection",
+          "from": "ldr_module_1:GND",
+          "to": "uno1:GND"
+        },
+        {
+          "description": "LDR module AO connected to A0",
+          "required": true,
+          "type": "connection",
+          "from": "ldr_module_1:AO",
+          "to": "uno1:A0"
+        },
+        {
+          "description": "LDR module DO connected to D3",
+          "required": true,
+          "type": "connection",
+          "from": "ldr_module_1:DO",
+          "to": "uno1:3"
+        },
+        {
+          "description": "LED anode connected to D11 through 220Ω resistor",
+          "required": true,
+          "type": "connection",
+          "from": "uno1:11",
+          "to": "r1:p1"
+        },
+        {
+          "description": "LED cathode connected to GND",
+          "required": true,
+          "type": "connection",
+          "from": "led1:K",
+          "to": "uno1:gnd_1"
+        }
+      ]
+    },
+    "codeFunctionality": {
+      "weight": 0.5,
+      "description": "Arduino code that meets the expected behavior for automatic light control",
+      "requiredFunctions": [
+        "analogRead",
+        "digitalWrite"
+      ],
+      "checks": [
+        {
+          "description": "LED pin configured as OUTPUT (pin 11)",
+          "required": true,
+          "type": "code",
+          "pattern": "pinMode\\s*\\(\\s*11\\s*,\\s*OUTPUT\\s*\\)"
+        },
+        {
+          "description": "Analog light reading from A0",
+          "required": true,
+          "type": "code",
+          "pattern": "analogRead\\s*\\(\\s*A0\\s*\\)"
+        },
+        {
+          "description": "LED controlled with digitalWrite based on light threshold",
+          "required": true,
+          "type": "code",
+          "pattern": "digitalWrite\\s*\\(\\s*11\\s*,"
+        }
+      ]
+    },
+    "components": {
+      "weight": 0.2,
+      "description": "Required components for the circuit",
+      "required": [
+        {
+          "type": "arduino",
+          "count": 1
+        },
+        {
+          "type": "ldr_module",
+          "count": 1
+        },
+        {
+          "type": "led",
+          "count": 1
+        },
+        {
+          "type": "resistor",
+          "count": 1,
+          "attrs": {
+            "value": "220"
+          }
+        }
+      ]
+    }
+  },
+  "demoImages": [
+    {
+      "id": "circuit-layout",
+      "name": "Circuit Layout",
+      "filename": "circuit.png",
+      "description": "Expected component placement and wiring"
+    }
+  ],
+  "scoring": {
+    "wiring": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All wiring connections are correct."
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most wiring connections are correct."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing or incorrect wiring connections."
+      }
+    },
+    "codeFunctionality": {
+      "excellent": {
+        "min": 90,
+        "feedback": "Code meets all expected requirements."
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Code meets most requirements with minor issues."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Code needs significant improvement."
+      }
+    },
+    "components": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All required components are present!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most required components are present."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing one or more required components."
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "title": "DC Motor with Motor Driver (L293D)",
+  "board": "Arduino Uno",
+  "description": "Control DC motor direction and speed using L293D H-bridge.",
+  "objectives": [
+    "Understand H-bridge motor driver",
+    "Control motor direction with digital pins",
+    "Control motor speed with PWM"
+  ]
+}

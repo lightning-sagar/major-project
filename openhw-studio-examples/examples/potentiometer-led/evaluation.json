@@ -1,0 +1,170 @@
+{
+  "title": "Potentiometer LED Brightness Circuit Evaluation",
+  "description": "Automatic evaluation criteria for potentiometer-controlled LED brightness circuit",
+  "version": "2.0",
+  "passingThreshold": 85,
+  "evaluationCriteria": {
+    "wiringAccuracy": {
+      "weight": 0.43,
+      "description": "Correct electrical connections between components",
+      "requiredConnections": [
+        {
+          "from": {
+            "component": "potentiometer",
+            "terminal": "SIG"
+          },
+          "to": {
+            "component": "arduino",
+            "pin": "a0"
+          }
+        },
+        {
+          "from": {
+            "component": "potentiometer",
+            "terminal": "2"
+          },
+          "to": {
+            "component": "arduino",
+            "pin": "3.3v"
+          }
+        },
+        {
+          "from": {
+            "component": "potentiometer",
+            "terminal": "1"
+          },
+          "to": {
+            "component": "arduino",
+            "pin": "gnd"
+          }
+        },
+        {
+          "from": {
+            "component": "led",
+            "terminal": "a"
+          },
+          "to": {
+            "component": "resistor",
+            "terminal": "p1"
+          }
+        },
+        {
+          "from": {
+            "component": "resistor",
+            "terminal": "p2"
+          },
+          "to": {
+            "component": "arduino",
+            "pin": "3"
+          }
+        },
+        {
+          "from": {
+            "component": "led",
+            "terminal": "k"
+          },
+          "to": {
+            "component": "arduino",
+            "pin": "gnd"
+          }
+        }
+      ]
+    },
+    "codeFunctionality": {
+      "weight": 0.37,
+      "description": "Arduino code that reads potentiometer and controls LED brightness via PWM",
+      "requiredFunctions": [
+        "analogRead",
+        "analogWrite",
+        "map",
+        "Serial.begin",
+        "Serial.println"
+      ],
+      "expectedBehavior": {
+        "pwmPin": 3,
+        "analogPin": "A0",
+        "pattern": "analog value mapped to PWM output"
+      }
+    },
+    "components": {
+      "weight": 0.2,
+      "description": "Required components for the circuit",
+      "required": [
+        {
+          "type": "arduino",
+          "count": 1
+        },
+        {
+          "type": "potentiometer",
+          "count": 1
+        },
+        {
+          "type": "led",
+          "count": 1
+        },
+        {
+          "type": "resistor",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "demoImages": [
+    {
+      "id": "circuit-layout",
+      "name": "Correct Circuit Layout",
+      "filename": "potentiometer-led-circuit.png",
+      "description": "Expected component placement and wiring"
+    },
+    {
+      "id": "simulation-result",
+      "name": "Working Simulation",
+      "filename": "potentiometer-led-simulation.png",
+      "description": "Expected simulation output showing brightness changing"
+    }
+  ],
+  "scoring": {
+    "wiringAccuracy": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All connections are correct!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most connections are correct with minor issues"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Wiring needs significant correction"
+      }
+    },
+    "codeFunctionality": {
+      "excellent": {
+        "min": 90,
+        "feedback": "Code correctly reads potentiometer and controls LED brightness!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Code works but may need minor improvements in PWM mapping"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Code does not correctly control LED brightness"
+      }
+    },
+    "components": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All required components are present!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most required components are present."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing one or more required components."
+      }
+    }
+  }
+}

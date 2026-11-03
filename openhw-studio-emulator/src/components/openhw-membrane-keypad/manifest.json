@@ -1,0 +1,38 @@
+{
+    "type": "openhw-membrane-keypad",
+    "label": "Membrane Keypad (4x4)",
+    "description": "Standard 4x4 membrane keypad matrix. Connect rows to output pins and columns to input pullup pins to scan for key presses.",
+    "group": "Inputs",
+    "w": 415.37,
+    "h": 537.40,
+    "pins": [
+        { "id": "R1", "x": 155.19, "y": 527.19, "type": "passive", "description": "Row 1" },
+        { "id": "R2", "x": 170.19, "y": 527.19, "type": "passive", "description": "Row 2" },
+        { "id": "R3", "x": 185.19, "y": 527.19, "type": "passive", "description": "Row 3" },
+        { "id": "R4", "x": 200.19, "y": 527.19, "type": "passive", "description": "Row 4" },
+        { "id": "C1", "x": 215.19, "y": 527.19, "type": "passive", "description": "Column 1" },
+        { "id": "C2", "x": 230.19, "y": 527.19, "type": "passive", "description": "Column 2" },
+        { "id": "C3", "x": 245.19, "y": 527.19, "type": "passive", "description": "Column 3" },
+        { "id": "C4", "x": 260.19, "y": 527.19, "type": "passive", "description": "Column 4" }
+    ],
+    "autowiring": {
+        "connections": [
+            { "from": "R1", "to": "arduino:9" },
+            { "from": "R2", "to": "arduino:8" },
+            { "from": "R3", "to": "arduino:7" },
+            { "from": "R4", "to": "arduino:6" },
+            { "from": "C1", "to": "arduino:5" },
+            { "from": "C2", "to": "arduino:4" },
+            { "from": "C3", "to": "arduino:3" },
+            { "from": "C4", "to": "arduino:2" }
+        ]
+    },
+    "autocoding": {
+        "libraries": ["Keypad"],
+        "arduino": {
+            "globals": "#include <Keypad.h>\n\nconst byte ROWS_${COMP_SUFFIX} = 4;\nconst byte COLS_${COMP_SUFFIX} = 4;\nchar keys_${COMP_SUFFIX}[ROWS_${COMP_SUFFIX}][COLS_${COMP_SUFFIX}] = {\n  {'1','2','3','A'},\n  {'4','5','6','B'},\n  {'7','8','9','C'},\n  {'*','0','#','D'}\n};\nbyte rowPins_${COMP_SUFFIX}[ROWS_${COMP_SUFFIX}] = {${R1}, ${R2}, ${R3}, ${R4}};\nbyte colPins_${COMP_SUFFIX}[COLS_${COMP_SUFFIX}] = {${C1}, ${C2}, ${C3}, ${C4}};\n\nKeypad keypad_${COMP_SUFFIX} = Keypad(makeKeymap(keys_${COMP_SUFFIX}), rowPins_${COMP_SUFFIX}, colPins_${COMP_SUFFIX}, ROWS_${COMP_SUFFIX}, COLS_${COMP_SUFFIX});",
+            "setup": "Serial.begin(9600);",
+            "loop": "char key_${COMP_SUFFIX} = keypad_${COMP_SUFFIX}.getKey();\nif (key_${COMP_SUFFIX}) {\n  Serial.print(\"Key Pressed: \");\n  Serial.println(key_${COMP_SUFFIX});\n}"
+        }
+    }
+}

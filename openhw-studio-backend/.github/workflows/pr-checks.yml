@@ -1,0 +1,95 @@
+name: Backend PR Checks
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  verify_pr:
+    name: Dry-Run Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout backend code
+        uses: actions/checkout@v4
+        with:
+          path: openhw-studio-backend
+
+      - name: Checkout examples code
+        uses: actions/checkout@v4
+        with:
+          repository: OpenHW-Studio/openhw-studio-examples
+          path: openhw-studio-examples
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout emulator code
+        uses: actions/checkout@v4
+        with:
+          repository: OpenHW-Studio/openhw-studio-emulator
+          path: openhw-studio-emulator
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dry-run Docker Deployment Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./openhw-studio-backend/Dockerfile
+          push: false # We only build to verify it works, we don't push it yet!
+          tags: test-backend:pr
+
+      - name: Reference Platform Validation Summary
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "## Platform Validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "See unified backend+emulator validation: [platform-validation-summary.yml](${{ github.server_url }}/${{ github.repository }}/actions/workflows/platform-validation-summary.yml)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on PR with result
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- backend-pr-checks -->';
+            const status = '${{ job.status }}';
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              marker,
+              '## 🏗️ Backend PR Checks',
+              '',
+              `**Status:** ${status === 'success' ? '✅ SUCCESS' : '❌ ' + status.toUpperCase()}`,
+              '',
+              'This workflow performed a dry-run deployment build of the backend.',
+              '',
+              `[View Build Logs and Artifacts](${runUrl})`,
+              '',
+              '---',
+              '💡 If the build failed, check the Docker build logs at the link above for specific errors.'
+            ].join('\n');
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100
+            });
+
+            const existing = comments.find(c => c.user?.type === 'Bot' && c.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body
+              });
+            }

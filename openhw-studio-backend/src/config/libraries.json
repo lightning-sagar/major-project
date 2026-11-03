@@ -1,0 +1,42 @@
+{
+    "permanent": [
+        "Adafruit NeoPixel",
+        "Stepper",
+        "Servo",
+        "Adafruit GFX Library",
+        "Adafruit SSD1306",
+        "Adafruit ILI9341",
+        "LiquidCrystal I2C",
+        "PubSubClient",
+        "ArduinoJson",
+        "Adafruit MPU6050",
+        "Adafruit BusIO",
+        "Adafruit Unified Sensor",
+        "Ticker",
+        "DHT sensor library",
+        "SparkFun MAX3010x Pulse and Proximity Sensor Library",
+        "AccelStepper",
+        "GxEPD2",
+        "DallasTemperature",
+        "ESP32Servo",
+        "LedControl",
+        "LiquidCrystal",
+        "OneWire"
+    ],
+    "cached": [
+        "AccelStepper",
+        "Adafruit BMP085 Library",
+        "Adafruit IntelliKeys",
+        "Adafruit LiquidCrystal",
+        "Adafruit MCP23017 Arduino Library",
+        "Adafruit PCD8544 Nokia 5110 LCD library",
+        "Adafruit SH110X",
+        "Adafruit STMPE610",
+        "Adafruit TouchScreen",
+        "Adafruit TSC2007",
+        "FastLED",
+        "LiquidCrystal",
+        "SdFat___Adafruit_Fork-2.3.103",
+        "SevSeg"
+    ]
+}

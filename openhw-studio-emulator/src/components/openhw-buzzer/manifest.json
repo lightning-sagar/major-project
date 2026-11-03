@@ -1,0 +1,50 @@
+{
+    "type": "openhw-buzzer",
+    "label": "Buzzer",
+    "description": "Piezoelectric buzzer that generates audio tones when driven by PWM or toggled digital signals. Frequency determines pitch; use tone() in Arduino.",
+    "group": "Outputs",
+    "w": 105,
+    "h": 135,
+    "attrs": {
+        "volume": "50",
+        "frequency": "440"
+    },
+    "pins": [
+        {
+            "id": "GND",
+            "x": 45,
+            "y": 135,
+            "type": "power",
+            "description": "Negative"
+        },
+        {
+            "id": "SIG",
+            "x": 60,
+            "y": 135,
+            "type": "digital",
+            "description": "Positive"
+        }
+    ],
+    "autowiring": {
+        "connections": [
+            {
+                "from": "SIG",
+                "to": "arduino:8",
+                "via": "openhw-resistor",
+                "attrs": {
+                    "value": "100"
+                }
+            },
+            {
+                "from": "GND",
+                "to": "arduino:GND"
+            }
+        ]
+    },
+    "autocoding": {
+        "arduino": {
+            "setup": "pinMode(${SIG}, OUTPUT);",
+            "loop": "int notes_${COMP_SUFFIX}[] = {262, 294, 330, 349, 392, 440, 494, 523};\nint durs_${COMP_SUFFIX}[] = {200, 200, 200, 200, 200, 200, 200, 400};\nfor (int i_${COMP_SUFFIX} = 0; i_${COMP_SUFFIX} < 8; i_${COMP_SUFFIX}++) {\n  tone(${SIG}, notes_${COMP_SUFFIX}[i_${COMP_SUFFIX}], durs_${COMP_SUFFIX}[i_${COMP_SUFFIX}]);\n  delay(durs_${COMP_SUFFIX}[i_${COMP_SUFFIX}] + 30);\n}\nnoTone(${SIG});\ndelay(1000);"
+        }
+    }
+}

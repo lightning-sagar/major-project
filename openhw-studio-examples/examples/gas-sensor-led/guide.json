@@ -1,0 +1,10 @@
+{
+  "title": "Gas Sensor with LED Indicator",
+  "board": "Arduino Uno",
+  "description": "Detect gas leakage using MQ-2 sensor and indicate with LED and buzzer.",
+  "objectives": [
+    "Read analog gas sensor values",
+    "Set threshold-based alerts",
+    "Trigger visual and audible alarms"
+  ]
+}

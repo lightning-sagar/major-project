@@ -1,0 +1,11 @@
+{
+  "title": "Scrolling Text on LCD",
+  "board": "Arduino Uno",
+  "description": "Display scrolling text on a 16x2 LCD character display.",
+  "objectives": [
+    "Wire a 16x2 LCD to Arduino in 4-bit mode (RS→12, E→11, D4→5, D5→4, D6→3, D7→2)",
+    "Initialize LCD with LiquidCrystal library",
+    "Display text using lcd.print()",
+    "Animate text with lcd.scrollDisplayLeft()"
+  ]
+}

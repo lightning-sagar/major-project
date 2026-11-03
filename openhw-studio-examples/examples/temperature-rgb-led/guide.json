@@ -1,0 +1,11 @@
+{
+  "title": "Temperature Indicator using RGB LED",
+  "board": "Arduino Uno",
+  "description": "Use RGB LED to indicate temperature ranges (blue=cool, green=normal, red=hot) with NTC temperature sensor.",
+  "objectives": [
+    "Read temperature from NTC sensor module (OUT → A0)",
+    "Control RGB LED colors (R→11, G→10, B→9)",
+    "Map temperature ranges to colors (blue < 20°C, green 20-30°C, red > 30°C)",
+    "Use analogWrite for RGB brightness control"
+  ]
+}

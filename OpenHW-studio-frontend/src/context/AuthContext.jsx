@@ -1,0 +1,112 @@
+import { createContext, useContext, useState, useEffect } from 'react'
+import {
+  getUser, getToken, saveUser, saveToken, logout as logoutService,
+  getAdminUser, getAdminToken, saveAdminUser, saveAdminToken, removeAdminToken, removeAdminUser,
+  fetchProfile, normalizeUser
+} from '../services/authService.js'
+
+const AuthContext = createContext(null)
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null)
+  const [token, setToken] = useState(null)
+  const [adminUser, setAdminUser] = useState(null)
+  const [adminToken, setAdminToken] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  // Restore session(s) from localStorage or URL on app load
+  useEffect(() => {
+    const handleInitialLoad = async () => {
+      // 1. Normal load: Check local storage
+        const storedUser = getUser()
+        const storedToken = getToken()
+        if (storedUser && storedToken) {
+            setUser(storedUser)
+            setToken(storedToken)
+        }
+
+        const storedAdminUser = getAdminUser()
+      const storedAdminToken = getAdminToken()
+      if (storedAdminUser && storedAdminToken) {
+        setAdminUser(storedAdminUser)
+        setAdminToken(storedAdminToken)
+      }
+
+      setLoading(false)
+    };
+
+    handleInitialLoad();
+  }, [])
+
+
+  /**
+   * Called after successful Google OAuth + backend verification
+   * @param {string} jwtToken - JWT from your backend
+   * @param {object} userProfile - { id, name, email, role, points, coins, level }
+   */
+  const login = (jwtToken, userProfile, isAdminPortal = false) => {
+    const profile = normalizeUser(userProfile);
+    if (isAdminPortal) {
+      saveAdminToken(jwtToken)
+      saveAdminUser(profile)
+      setAdminToken(jwtToken)
+      setAdminUser(profile)
+    } else {
+      saveToken(jwtToken)
+      saveUser(profile)
+      setToken(jwtToken)
+      setUser(profile)
+    }
+  }
+
+  const logout = async () => {
+    await logoutService()          // ensures removeToken() + removeUser() run first
+    setUser(null)
+    setToken(null)
+    removeAdminToken()
+    removeAdminUser()
+    setAdminUser(null)
+    setAdminToken(null)
+  }
+
+  const updateUserSession = (userProfile) => {
+    const profile = normalizeUser(userProfile);
+    saveUser(profile)
+    setUser(profile)
+  }
+
+  const adminLogout = () => {
+    removeAdminToken()
+    removeAdminUser()
+    setAdminUser(null)
+    setAdminToken(null)
+  }
+
+  const isAuthenticated = !!user && !!token
+  const role = user?.role || null // 'student' | 'teacher' | 'user'
+  const isPendingDeletion = user?.status === 'pending_deletion'
+
+  const isAdminAuthenticated = !!adminUser && !!adminToken
+  const adminRole = adminUser?.role || null // 'admin'
+
+  return (
+    <AuthContext.Provider value={{
+      // Main student/teacher session
+      user, token, isAuthenticated, role, isPendingDeletion,
+
+      // Admin session
+      adminUser, adminToken, isAdminAuthenticated, adminRole,
+
+      // Actions
+      login, logout, adminLogout, updateUserSession, loading
+    }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export const useAuth = () => {
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider')
+  return ctx
+}

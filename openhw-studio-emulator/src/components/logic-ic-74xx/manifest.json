@@ -1,0 +1,126 @@
+{
+    "type": "logic-ic-74xx",
+    "label": "Logic IC",
+    "description": "Universal 74xx series logic IC. Supports 7400, 7402, 7404, 7407, 7408, 7432, 7486, 74266.",
+    "group": "Logic",
+    "w": 120,
+    "h": 45,
+    "attrs": {
+        "icType": "7408"
+    },
+    "pins": [
+        {
+            "id": "p1",
+            "x": 15,
+            "y": 45,
+            "type": "digital",
+            "description": "Pin 1"
+        },
+        {
+            "id": "p2",
+            "x": 30,
+            "y": 45,
+            "type": "digital",
+            "description": "Pin 2"
+        },
+        {
+            "id": "p3",
+            "x": 45,
+            "y": 45,
+            "type": "digital",
+            "description": "Pin 3"
+        },
+        {
+            "id": "p4",
+            "x": 60,
+            "y": 45,
+            "type": "digital",
+            "description": "Pin 4"
+        },
+        {
+            "id": "p5",
+            "x": 75,
+            "y": 45,
+            "type": "digital",
+            "description": "Pin 5"
+        },
+        {
+            "id": "p6",
+            "x": 90,
+            "y": 45,
+            "type": "digital",
+            "description": "Pin 6"
+        },
+        {
+            "id": "p7",
+            "x": 105,
+            "y": 45,
+            "type": "digital",
+            "description": "Pin 7 (GND)"
+        },
+        {
+            "id": "p8",
+            "x": 105,
+            "y": 0,
+            "type": "digital",
+            "description": "Pin 8"
+        },
+        {
+            "id": "p9",
+            "x": 90,
+            "y": 0,
+            "type": "digital",
+            "description": "Pin 9"
+        },
+        {
+            "id": "p10",
+            "x": 75,
+            "y": 0,
+            "type": "digital",
+            "description": "Pin 10"
+        },
+        {
+            "id": "p11",
+            "x": 60,
+            "y": 0,
+            "type": "digital",
+            "description": "Pin 11"
+        },
+        {
+            "id": "p12",
+            "x": 45,
+            "y": 0,
+            "type": "digital",
+            "description": "Pin 12"
+        },
+        {
+            "id": "p13",
+            "x": 30,
+            "y": 0,
+            "type": "digital",
+            "description": "Pin 13"
+        },
+        {
+            "id": "p14",
+            "x": 15,
+            "y": 0,
+            "type": "digital",
+            "description": "Pin 14 (VCC)"
+        }
+    ],
+    "autowiring": {
+        "connections": [
+            { "from": "p7", "to": "arduino:GND" },
+            { "from": "p14", "to": "arduino:5V" },
+            { "from": "p1", "to": "arduino:D2" },
+            { "from": "p2", "to": "arduino:D3" },
+            { "from": "p3", "to": "arduino:D4" }
+        ]
+    },
+    "autocoding": {
+        "arduino": {
+            "setup": "Serial.begin(9600);\nSerial.println(\"Logic IC (${icType}) ready\");\npinMode(${p1}, OUTPUT);\npinMode(${p2}, OUTPUT);\npinMode(${p3}, INPUT);",
+            "loop": "for (int i=0; i<4; i++) {\n  digitalWrite(${p1}, (i&1)?HIGH:LOW);\n  digitalWrite(${p2}, (i&2)?HIGH:LOW);\n  delay(5);\n  Serial.print(\"IC | p1=\");\n  Serial.print((i&1)?1:0);\n  Serial.print(\" p2=\");\n  Serial.print((i&2)?1:0);\n  Serial.print(\" -> p3=\");\n  Serial.println(digitalRead(${p3}));\n  delay(500);\n}"
+        }
+    }
+}

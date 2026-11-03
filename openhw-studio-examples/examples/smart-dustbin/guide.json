@@ -1,0 +1,10 @@
+{
+  "title": "Smart Dustbin (Ultrasonic + Servo)",
+  "board": "Arduino Uno",
+  "description": "Automatic dustbin lid that opens when hand is detected via ultrasonic sensor.",
+  "objectives": [
+    "Measure distance with HC-SR04",
+    "Control servo motor angle",
+    "Implement automatic lid open/close logic"
+  ]
+}

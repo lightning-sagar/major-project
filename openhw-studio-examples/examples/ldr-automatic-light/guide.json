@@ -1,0 +1,11 @@
+{
+  "title": "LDR-based Automatic Light System",
+  "board": "Arduino Uno",
+  "description": "Build an automatic night light using an LDR sensor module that turns an LED on when it gets dark.",
+  "objectives": [
+    "Read analog light level from LDR module (AO → A0)",
+    "Read digital dark/light signal from LDR module (DO → D3)",
+    "Control LED (D11) based on ambient light threshold",
+    "Understand threshold-based automatic control"
+  ]
+}

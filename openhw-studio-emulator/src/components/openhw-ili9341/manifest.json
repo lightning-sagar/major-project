@@ -1,0 +1,84 @@
+{
+  "type": "openhw-ili9341",
+  "label": "ILI9341 2.8\" TFT LCD",
+  "group": "Displays",
+  "w": 240,
+  "h": 360,
+  "pins": [
+    {
+      "id": "VCC",
+      "x": 60,
+      "y": 352.5,
+      "type": "power"
+    },
+    {
+      "id": "GND",
+      "x": 75,
+      "y": 352.5,
+      "type": "power"
+    },
+    {
+      "id": "CS",
+      "x": 90,
+      "y": 352.5,
+      "type": "digital"
+    },
+    {
+      "id": "RESET",
+      "x": 105,
+      "y": 352.5,
+      "type": "digital"
+    },
+    {
+      "id": "DC",
+      "x": 120,
+      "y": 352.5,
+      "type": "digital"
+    },
+    {
+      "id": "MOSI",
+      "x": 135,
+      "y": 352.5,
+      "type": "digital"
+    },
+    {
+      "id": "SCK",
+      "x": 150,
+      "y": 352.5,
+      "type": "digital"
+    },
+    {
+      "id": "LED",
+      "x": 165,
+      "y": 352.5,
+      "type": "digital"
+    },
+    {
+      "id": "MISO",
+      "x": 180,
+      "y": 352.5,
+      "type": "digital"
+    }
+  ],
+  "autowiring": {
+    "connections": [
+      { "from": "VCC", "to": "arduino:5V" },
+      { "from": "GND", "to": "arduino:GND" },
+      { "from": "SCK", "to": "arduino:SCK" },
+      { "from": "MOSI", "to": "arduino:MOSI" },
+      { "from": "MISO", "to": "arduino:MISO" },
+      { "from": "CS", "to": "arduino:10" },
+      { "from": "DC", "to": "arduino:9" },
+      { "from": "RESET", "to": "arduino:8" },
+      { "from": "LED", "to": "arduino:5V" }
+    ]
+  },
+  "autocoding": {
+    "libraries": ["Adafruit ILI9341", "Adafruit GFX Library"],
+    "arduino": {
+      "globals": "#include <SPI.h>\n#include \"Adafruit_GFX.h\"\n#include \"Adafruit_ILI9341.h\"\n\n#define TFT_DC_${COMP_SUFFIX}  ${DC}\n#define TFT_CS_${COMP_SUFFIX}  ${CS}\n#define TFT_RST_${COMP_SUFFIX} ${RESET}\n#if defined(ARDUINO_ARCH_RP2040)\n  #define TFT_MISO_${COMP_SUFFIX} ${MISO}\n  #define TFT_MOSI_${COMP_SUFFIX} ${MOSI}\n  #define TFT_SCK_${COMP_SUFFIX}  ${SCK}\n#endif\n\nAdafruit_ILI9341 tft_${COMP_SUFFIX}(TFT_CS_${COMP_SUFFIX}, TFT_DC_${COMP_SUFFIX}, TFT_RST_${COMP_SUFFIX});",
+      "setup": "#if defined(ARDUINO_ARCH_RP2040)\n  SPI.setRX(TFT_MISO_${COMP_SUFFIX});\n  SPI.setTX(TFT_MOSI_${COMP_SUFFIX});\n  SPI.setSCK(TFT_SCK_${COMP_SUFFIX});\n  SPI.begin();\n#endif\n  tft_${COMP_SUFFIX}.begin();\n  tft_${COMP_SUFFIX}.setRotation(0);\n  tft_${COMP_SUFFIX}.fillScreen(ILI9341_BLACK);\n  tft_${COMP_SUFFIX}.setCursor(30, 60);\n  tft_${COMP_SUFFIX}.setTextColor(ILI9341_WHITE);\n  tft_${COMP_SUFFIX}.setTextSize(1);\n  tft_${COMP_SUFFIX}.println(\"WebHardware\");\n  tft_${COMP_SUFFIX}.setCursor(35, 90);\n  tft_${COMP_SUFFIX}.setTextSize(1);\n  tft_${COMP_SUFFIX}.println(\"ILI9341 Ready\");\n  delay(2000);",
+      "loop": "  tft_${COMP_SUFFIX}.setCursor(35, 140);\n  tft_${COMP_SUFFIX}.setTextSize(1);\n  tft_${COMP_SUFFIX}.setTextColor(ILI9341_WHITE, ILI9341_BLACK);\n  tft_${COMP_SUFFIX}.print(\"Time: \");\n  tft_${COMP_SUFFIX}.print(millis()/1000);\n  tft_${COMP_SUFFIX}.print(\"s  \");\n  delay(500);"
+    }
+  }
+}

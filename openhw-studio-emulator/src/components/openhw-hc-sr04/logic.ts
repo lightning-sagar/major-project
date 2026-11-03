@@ -1,0 +1,86 @@
+import { BaseComponent } from '../BaseComponent';
+import { PulseProtocol } from '../../protocol-handlers/index';
+
+export class HCSR04Logic extends PulseProtocol {
+    private isEchoing = false;
+
+    constructor(id: string, manifest: any) {
+        super(id, manifest);
+        this.attrs = manifest.attrs || {};
+        this.state = {
+            ...this.state,
+            distance: parseFloat(this.attrs.distance || '100')
+        };
+    }
+
+    onPulseReceived(pinId: string, isHighPulse: boolean, durationUs: number): void {
+        // HC-SR04 triggers when TRIG pin receives a HIGH pulse.
+        // Standard trigger is 10us, but check >= 8us to handle clock cycle/precision variations on AVR boards
+        if (pinId === 'TRIG' && isHighPulse && durationUs >= 8) {
+            this.startEcho();
+        }
+    }
+
+    onEvent(event: any) {
+        if (event.type === 'SET_ATTR') {
+            this.attrs = this.attrs || {};
+            this.attrs[event.key] = String(event.value);
+            if (event.key === 'distance') {
+                this.state.distance = String(event.value);
+            }
+            this.stateChanged = true;
+        }
+    }
+
+    private driveEcho(voltage: number) {
+        this.setPinVoltage('ECHO', voltage);
+        if ((this as any)._simUpdatePhysics) {
+            (this as any)._simUpdatePhysics();
+        }
+    }
+
+    private startEcho() {
+        if (this.isEchoing) return;
+
+        const distance = parseFloat(this.attrs?.distance || '100');
+        const echoDurationUs = distance * 58;
+
+        this.isEchoing = true;
+        
+        // Wait ~200us before driving ECHO high to simulate 8-cycle 40kHz sonic burst.
+        // This gives the Arduino CPU enough time to hit the pulseIn() instruction.
+        const cpu = (this as any)._simCpu;
+        if (cpu && typeof cpu.addClockEvent === 'function') {
+            cpu.addClockEvent(() => {
+                this.driveEcho(5.0); // Start pulse
+                cpu.addClockEvent(() => {
+                    this.driveEcho(0.0); // End pulse
+                    this.isEchoing = false;
+                }, echoDurationUs * 16);
+            }, 200 * 16); // 200us at 16MHz
+        } else {
+            // Fallback for non-AVR runners
+            this.sendPulse('ECHO', true, echoDurationUs, 0.0);
+        }
+    }
+
+    update(cpuCycles: number, wires: any[], instances: BaseComponent[]) {
+        super.update(cpuCycles, wires, instances);
+        // If ECHO pin went low, echoing is done
+        if (this.isEchoing && this.getPinVoltage('ECHO') < 2.5) {
+            this.isEchoing = false;
+        }
+    }
+
+    onCustomTelemetry() {
+        const distance = parseFloat(this.attrs?.distance || '100');
+        const echoDurationUs = distance * 58; // Speed of sound: 340 m/s
+
+        this.setCustomTelemetry({
+            configuredDistance: distance,
+            echoDurationUs: Number(echoDurationUs.toFixed(1)),
+            isEchoing: this.isEchoing,
+            lastMeasurement: this.state.distance || distance,
+        });
+    }
+}

@@ -1,0 +1,59 @@
+{
+    "type": "openhw-lcd2004-i2c",
+    "name": "LCD 2004 (I2C)",
+    "description": "20x4 Character LCD Display with I2C Backpack",
+    "category": "Displays",
+    "group": "Displays",
+    "dimensions": {
+        "width": 375,
+        "height": 195
+    },
+    "pins": [
+        { "id": "GND", "x": 0, "y": 75, "description": "Ground" },
+        { "id": "VCC", "x": 0, "y": 90, "description": "Power Supply (5V)" },
+        { "id": "SDA", "x": 0, "y": 105, "description": "I2C Data" },
+        { "id": "SCL", "x": 0, "y": 120, "description": "I2C Clock" }
+    ],
+    "properties": [
+        {
+            "name": "i2cAddress",
+            "type": "number",
+            "default": 39,
+            "description": "I2C Address (default: 0x27)"
+        },
+        {
+            "name": "color",
+            "type": "select",
+            "options": ["green", "blue", "yellow", "white"],
+            "default": "blue",
+            "description": "Background color"
+        }
+    ],
+    "state": {
+        "lines": ["", "", "", ""],
+        "illuminated": true
+    },
+    "telemetry": {
+        "display": {
+            "type": "string",
+            "format": "text",
+            "source": "lines",
+            "multiple": true
+        }
+    },
+    "autocoding": {
+        "arduino": {
+            "includes": ["<Wire.h>", "<LiquidCrystal_I2C.h>"],
+            "globals": "LiquidCrystal_I2C lcd({{i2cAddress}}, 20, 4);",
+            "setup": "lcd.init();\nlcd.backlight();\nlcd.setCursor(0, 0);\nlcd.print(\"Hello, WebHardware!\");",
+            "loop": "",
+            "dependencies": ["LiquidCrystal I2C"]
+        },
+        "micropython": {
+            "includes": ["from machine import I2C, Pin", "from pico_i2c_lcd import I2cLcd"],
+            "globals": "i2c = I2C(0, sda=Pin({{SDA}}), scl=Pin({{SCL}}), freq=400000)\nlcd = I2cLcd(i2c, {{i2cAddress}}, 4, 20)",
+            "setup": "lcd.putstr('Hello, WebHardware!')",
+            "loop": ""
+        }
+    }
+}

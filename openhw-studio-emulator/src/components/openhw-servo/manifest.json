@@ -1,0 +1,63 @@
+{
+    "type": "openhw-servo",
+    "label": "Servo Motor",
+    "description": "Hobby servo motor with precise angular position control (0–180°) via PWM signal. Operates at 5 V; signal pulse width of 1–2 ms controls the shaft angle.",
+    "group": "Actuators",
+    "w": 248.3,
+    "h": 180.6,
+    "attrs": {
+        "angle": "0",
+        "color": "white",
+        "horn-color": "white",
+        "hornColor": "white"
+    },
+    "pins": [
+        {
+            "id": "GND",
+            "x": 11.5,
+            "y": 75,
+            "type": "power",
+            "description": "Ground"
+        },
+        {
+            "id": "V+",
+            "x": 11.5,
+            "y": 90,
+            "type": "power",
+            "description": "5V Power"
+        },
+        {
+            "id": "PWM",
+            "x": 11.5,
+            "y": 105,
+            "type": "digital",
+            "description": "PWM Input"
+        }
+    ],
+    "autowiring": {
+        "connections": [
+            { "from": "GND", "to": "arduino:GND" },
+            { "from": "V+",  "to": "powersupply:5V" },
+            { "from": "PWM", "to": "arduino:6" }
+        ],
+        "externalPower": true,
+        "externalVoltage": "5.0"
+    },
+    "autocoding": {
+        "libraries": ["Servo", "ESP32Servo"],
+        "arduino": {
+            "globals": "#include <Servo.h>\nServo myServo_${COMP_SUFFIX};",
+            "setup": "myServo_${COMP_SUFFIX}.attach(${PWM});\nmyServo_${COMP_SUFFIX}.write(0);\ndelay(500);\nSerial.begin(9600);\nSerial.println(\"Servo Motor Ready\");",
+            "loop": "for (int pos_${COMP_SUFFIX} = 0; pos_${COMP_SUFFIX} <= 180; pos_${COMP_SUFFIX}++) {\n  myServo_${COMP_SUFFIX}.write(pos_${COMP_SUFFIX});\n  Serial.print(\"Servo position: \");\n  Serial.println(pos_${COMP_SUFFIX});\n  delay(10);\n}\nfor (int pos_${COMP_SUFFIX} = 180; pos_${COMP_SUFFIX} >= 0; pos_${COMP_SUFFIX}--) {\n  myServo_${COMP_SUFFIX}.write(pos_${COMP_SUFFIX});\n  Serial.print(\"Servo position: \");\n  Serial.println(pos_${COMP_SUFFIX});\n  delay(10);\n}"
+        },
+        "esp32": {
+            "globals": "#include <ESP32Servo.h>\nServo myServo_${COMP_SUFFIX};",
+            "setup": "myServo_${COMP_SUFFIX}.attach(${PWM});\nmyServo_${COMP_SUFFIX}.write(0);\ndelay(500);\nSerial.begin(9600);\nSerial.println(\"Servo Motor Ready\");",
+            "loop": "for (int pos_${COMP_SUFFIX} = 0; pos_${COMP_SUFFIX} <= 180; pos_${COMP_SUFFIX}++) {\n  myServo_${COMP_SUFFIX}.write(pos_${COMP_SUFFIX});\n  Serial.print(\"Servo position: \");\n  Serial.println(pos_${COMP_SUFFIX});\n  delay(10);\n}\nfor (int pos_${COMP_SUFFIX} = 180; pos_${COMP_SUFFIX} >= 0; pos_${COMP_SUFFIX}--) {\n  myServo_${COMP_SUFFIX}.write(pos_${COMP_SUFFIX});\n  Serial.print(\"Servo position: \");\n  Serial.println(pos_${COMP_SUFFIX});\n  delay(10);\n}"
+        }
+    },
+    "telemetry": {
+      "template": "Angle=${state.angle}°, Moving=${state.moving}",
+      "criticalKeys": ["state.angle"]
+    }
+}

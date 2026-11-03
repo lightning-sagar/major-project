@@ -1,0 +1,42 @@
+{
+  "name": "openhw-studio-backend",
+  "version": "1.0.0",
+  "description": "Backend for WebHardware - Electronics Simulation Platform",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [
+    "electronics",
+    "simulation",
+    "education"
+  ],
+  "author": "FOSSEE",
+  "license": "MIT",
+  "dependencies": {
+    "@duinoapp/upload-multitool": "^0.0.3",
+    "adm-zip": "^0.5.17",
+    "argon2": "^0.44.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.19.0",
+    "fastq": "^1.20.1",
+    "geoip-lite": "^1.4.10",
+    "google-auth-library": "^10.6.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.4",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "tcpip": "^0.4.0",
+    "ws": "^8.20.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

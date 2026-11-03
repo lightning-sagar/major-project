@@ -1,0 +1,10 @@
+{
+  "title": "LDR Based Smart Street Light",
+  "board": "Arduino Uno",
+  "description": "Street light that automatically turns on at night using LDR sensor.",
+  "objectives": [
+    "Read light intensity from LDR",
+    "Understand voltage divider with LDR",
+    "Auto-control LED based on ambient light"
+  ]
+}

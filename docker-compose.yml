@@ -1,0 +1,136 @@
+# WebHardware — full local stack
+#
+#   cp .env.example .env      # optional, sensible defaults are built in
+#   docker compose up --build
+#   open http://localhost:8080
+#
+# Works on Apple Silicon and Intel Macs. The backend images bundle x86-only
+# tools (Espressif QEMU, Renode, the Go gateway), so they are pinned to
+# linux/amd64 and run under Rosetta on Apple Silicon. Enable
+# "Use Rosetta for x86_64/amd64 emulation" in Docker Desktop → Settings → General.
+#
+# Container names match the hostnames hard-coded in
+# OpenHW-studio-frontend/nginx.conf (openhw-backend, openhw-network-gateway).
+
+name: webhardware
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: webhardware-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: openhw-studio-backend/Dockerfile.main
+    platform: linux/amd64
+    container_name: openhw-backend
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      PORT: 5000
+      ROLE: main
+      MONGO_URI: mongodb://mongodb:27017/webhardware
+      JWT_SECRET: ${JWT_SECRET:-local-dev-jwt-secret-change-me}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      SESSION_SECRET: ${SESSION_SECRET:-local-dev-session-secret-change-me}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8080}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080,http://localhost:5173}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-http://localhost:8080/auth/google/callback}
+      VITE_ADMIN_EMAILS: ${VITE_ADMIN_EMAILS:-}
+      EXAMPLES_DIR: /app/openhw-studio-examples/examples
+      EMULATOR_PATH: /app/openhw-studio-emulator
+      ESP32_WORKER_HTTP_URL: http://openhw-esp32-worker:5001
+      ESP32_WORKER_WS_URL: ws://openhw-esp32-worker:5001
+      STM32_WORKER_HTTP_URL: http://openhw-stm32-worker:5002
+      STM32_WORKER_WS_URL: ws://openhw-stm32-worker:5002
+    volumes:
+      - backend_data:/app/data
+      - shared_data:/data
+    tmpfs:
+      - /app/temp:size=512M
+      - /app/builds:size=256M
+    ports:
+      - "5000:5000"
+
+  esp32-worker:
+    build:
+      context: .
+      dockerfile: openhw-studio-backend/Dockerfile.esp32
+    platform: linux/amd64
+    container_name: openhw-esp32-worker
+    restart: unless-stopped
+    environment:
+      PORT: 5001
+      ROLE: esp32-worker
+      SESSION_SECRET: ${SESSION_SECRET:-local-dev-session-secret-change-me}
+      COMPILE_TIMEOUT_MS: ${COMPILE_TIMEOUT_MS:-600000}
+    volumes:
+      - backend_data:/app/data
+      - shared_data:/data
+    tmpfs:
+      - /app/temp:size=1G
+      - /app/builds:size=2G
+
+  stm32-worker:
+    build:
+      context: .
+      dockerfile: openhw-studio-backend/Dockerfile.stm32
+    platform: linux/amd64
+    container_name: openhw-stm32-worker
+    restart: unless-stopped
+    environment:
+      PORT: 5002
+      ROLE: stm32-worker
+      SESSION_SECRET: ${SESSION_SECRET:-local-dev-session-secret-change-me}
+      COMPILE_TIMEOUT_MS: ${COMPILE_TIMEOUT_MS:-600000}
+    volumes:
+      - backend_data:/app/data
+      - shared_data:/data
+    tmpfs:
+      - /app/temp:size=1G
+      - /app/builds:size=1G
+
+  network-gateway:
+    build:
+      context: ./openhw-studio-backend/openhw-local-gateway
+    platform: linux/amd64
+    container_name: openhw-network-gateway
+    restart: unless-stopped
+    environment:
+      PORT: 5099
+      GATEWAY_MODE: public
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+      args:
+        VITE_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+        VITE_ADMIN_EMAILS: ${VITE_ADMIN_EMAILS:-}
+    container_name: webhardware-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - network-gateway
+    ports:
+      - "${WEB_PORT:-8080}:80"
+
+volumes:
+  mongodb_data:
+  backend_data:
+  shared_data:

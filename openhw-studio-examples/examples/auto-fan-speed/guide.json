@@ -1,0 +1,10 @@
+{
+  "title": "Automatic Fan Speed Control",
+  "board": "Arduino Uno",
+  "description": "Control stepper motor fan speed based on temperature using DHT22 sensor, potentiometer override, 16x2 LCD display, and A4988 driver.",
+  "objectives": [
+    "Read temperature from DHT22 sensor",
+    "Display real-time temperature and fan status on 16x2 I2C LCD",
+    "Control stepper motor speed via A4988 driver with manual potentiometer override"
+  ]
+}

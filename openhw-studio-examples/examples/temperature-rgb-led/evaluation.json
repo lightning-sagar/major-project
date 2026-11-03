@@ -1,0 +1,171 @@
+{
+  "title": "Temperature Indicator using RGB LED Circuit Evaluation",
+  "description": "Automatic evaluation criteria for temperature indicator using rgb led circuit implementation",
+  "version": "2.0",
+  "passingThreshold": 85,
+  "evaluationCriteria": {
+    "wiringAccuracy": {
+      "weight": 0.43,
+      "description": "Correct electrical connections between components",
+      "checks": [
+        {
+          "description": "NTC sensor VCC connected to 5V",
+          "required": true,
+          "type": "connection",
+          "from": "ntc_1:VCC",
+          "to": "uno1:5V"
+        },
+        {
+          "description": "NTC sensor GND connected to GND",
+          "required": true,
+          "type": "connection",
+          "from": "ntc_1:GND",
+          "to": "uno1:GND"
+        },
+        {
+          "description": "NTC sensor OUT connected to A0",
+          "required": true,
+          "type": "connection",
+          "from": "ntc_1:OUT",
+          "to": "uno1:A0"
+        },
+        {
+          "description": "RGB LED R connected to D11 through 220Ω resistor",
+          "required": true,
+          "type": "connection",
+          "from": "uno1:11",
+          "to": "r_r:p1"
+        },
+        {
+          "description": "RGB LED G connected to D10 through 220Ω resistor",
+          "required": true,
+          "type": "connection",
+          "from": "uno1:10",
+          "to": "r_g:p1"
+        },
+        {
+          "description": "RGB LED B connected to D9 through 220Ω resistor",
+          "required": true,
+          "type": "connection",
+          "from": "uno1:9",
+          "to": "r_b:p1"
+        },
+        {
+          "description": "RGB LED common cathode connected to GND",
+          "required": true,
+          "type": "connection",
+          "from": "rgb_led1:COM",
+          "to": "uno1:GND"
+        }
+      ],
+    },
+    "codeFunctionality": {
+      "weight": 0.37,
+      "description": "Arduino code that implements temperature-based RGB LED control",
+      "requiredFunctions": [
+        "analogRead",
+        "digitalWrite"
+      ],
+      "checks": [
+        {
+          "description": "Temperature read from A0 using analogRead",
+          "required": true,
+          "type": "code",
+          "pattern": "analogRead\\s*\\(\\s*A0\\s*\\)"
+        },
+        {
+          "description": "RGB LED pin 11 (red) controlled with digitalWrite",
+          "required": true,
+          "type": "code",
+          "pattern": "digitalWrite\\s*\\(\\s*11\\s*,"
+        },
+        {
+          "description": "RGB LED pin 10 (green) controlled with digitalWrite",
+          "required": true,
+          "type": "code",
+          "pattern": "digitalWrite\\s*\\(\\s*10\\s*,"
+        },
+        {
+          "description": "RGB LED pin 9 (blue) controlled with digitalWrite",
+          "required": true,
+          "type": "code",
+          "pattern": "digitalWrite\\s*\\(\\s*9\\s*,"
+        }
+      ]
+    },
+    "components": {
+      "weight": 0.2,
+      "description": "Required components for the circuit",
+      "required": [
+        {
+          "type": "arduino",
+          "count": 1
+        },
+        {
+          "type": "ntc",
+          "count": 1
+        },
+        {
+          "type": "rgb-led",
+          "count": 1
+        },
+        {
+          "type": "resistor",
+          "count": 3
+        }
+      ]
+    }
+  },
+  "demoImages": [
+    {
+      "id": "circuit-layout",
+      "name": "Circuit Layout",
+      "filename": "circuit.png",
+      "description": "Expected component placement and wiring"
+    }
+  ],
+  "scoring": {
+    "wiringAccuracy": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All connections are correct!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most connections are correct with minor issues"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Wiring needs significant correction"
+      }
+    },
+    "codeFunctionality": {
+      "excellent": {
+        "min": 90,
+        "feedback": "Code works perfectly!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Code works but may need minor improvements"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Code functionality needs significant work"
+      }
+    },
+    "components": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All required components are present!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most required components are present."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing one or more required components."
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Potentiometer Controlled LED Brightness",
+  "board": "Arduino Uno",
+  "description": "Use a potentiometer to vary LED brightness via PWM on pin 3.",
+  "objectives": [
+    "Read analog voltage from a potentiometer with analogRead",
+    "Map ADC values (0-1023) to PWM range (0-255)",
+    "Control LED brightness using analogWrite on pin 3"
+  ]
+}

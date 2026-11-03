@@ -1,0 +1,13 @@
+{
+  "title": "Obstacle Avoiding Robot",
+  "board": "Arduino Uno",
+  "description": "Build an autonomous obstacle avoiding robot using an ultrasonic sensor and motor driver. The robot detects obstacles and changes direction automatically.",
+  "objectives": [
+    "Measure distance using the HC-SR04 ultrasonic sensor",
+    "Detect obstacles in front of the robot",
+    "Control two DC motors using the L293D motor driver",
+    "Move forward when no obstacle is detected",
+    "Stop and turn when an obstacle is detected",
+    "Understand autonomous navigation using sensors and actuators"
+  ]
+}

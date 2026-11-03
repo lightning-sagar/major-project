@@ -1,0 +1,163 @@
+{
+  "title": "IR Remote Control System Evaluation",
+  "description": "Automatic evaluation criteria for IR remote control system implementation",
+  "version": "2.0",
+  "passingThreshold": 85,
+  "evaluationCriteria": {
+    "wiringAccuracy": {
+      "weight": 0.43,
+      "description": "Correct electrical connections between components",
+      "requiredConnections": [
+        {
+          "from": {
+            "component": "arduino",
+            "pin": "11"
+          },
+          "to": {
+            "component": "ir_receiver",
+            "terminal": "signal"
+          }
+        },
+        {
+          "from": {
+            "component": "arduino",
+            "pin": "5V"
+          },
+          "to": {
+            "component": "ir_receiver",
+            "terminal": "vcc"
+          }
+        },
+        {
+          "from": {
+            "component": "arduino",
+            "pin": "GND"
+          },
+          "to": {
+            "component": "ir_receiver",
+            "terminal": "gnd"
+          }
+        },
+        {
+          "from": {
+            "component": "arduino",
+            "pin": "13"
+          },
+          "to": {
+            "component": "led",
+            "terminal": "a"
+          }
+        },
+        {
+          "from": {
+            "component": "led",
+            "terminal": "k"
+          },
+          "to": {
+            "component": "arduino",
+            "pin": "GND"
+          }
+        }
+      ]
+    },
+    "codeFunctionality": {
+      "weight": 0.37,
+      "description": "Arduino code that implements IR remote controlled LED operation",
+      "requiredFunctions": [
+        "pinMode",
+        "Serial.begin",
+        "IrReceiver.begin",
+        "IrReceiver.decode",
+        "digitalWrite"
+      ],
+      "expectedBehavior": {
+        "pinMode": "OUTPUT",
+        "pattern": "IR Remote Control System"
+      }
+    },
+    "components": {
+      "weight": 0.20,
+      "description": "Required components for the circuit",
+      "required": [
+        {
+          "type": "arduino",
+          "count": 1
+        },
+        {
+          "type": "ir_receiver",
+          "count": 1
+        },
+        {
+          "type": "ir_remote",
+          "count": 1
+        },
+        {
+          "type": "led",
+          "count": 1
+        },
+        {
+          "type": "resistor",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "demoImages": [
+    {
+      "id": "circuit-layout",
+      "name": "Correct Circuit Layout",
+      "filename": "ir-remote-control-circuit.png",
+      "description": "Expected component placement and wiring"
+    },
+    {
+      "id": "simulation-result",
+      "name": "Working Simulation",
+      "filename": "ir-remote-control-simulation.png",
+      "description": "Expected simulation output"
+    }
+  ],
+  "scoring": {
+    "wiringAccuracy": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All connections are correct!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most connections are correct with minor issues"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Wiring needs significant correction"
+      }
+    },
+    "codeFunctionality": {
+      "excellent": {
+        "min": 90,
+        "feedback": "Code works perfectly!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Code works but may need minor improvements"
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Code functionality needs significant work"
+      }
+    },
+    "components": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All required components are present!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most required components are present."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing one or more required components."
+      }
+    }
+  }
+}

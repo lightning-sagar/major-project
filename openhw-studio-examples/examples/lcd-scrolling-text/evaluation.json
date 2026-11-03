@@ -1,0 +1,206 @@
+{
+  "title": "LCD Scrolling Text Evaluation",
+  "description": "Evaluate LCD circuit wiring and scrolling text code.",
+  "version": "2.0",
+  "passingThreshold": 75,
+  "evaluationCriteria": {
+    "wiring": {
+      "weight": 0.3,
+      "description": "Correct circuit wiring for 16x2 LCD",
+      "checks": [
+        {
+          "description": "LCD VSS connected to GND",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:VSS",
+          "to": "uno1:GND"
+        },
+        {
+          "description": "LCD VDD connected to 5V",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:VDD",
+          "to": "uno1:5V"
+        },
+        {
+          "description": "LCD V0 (contrast) connected to GND",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:V0",
+          "to": "uno1:GND"
+        },
+        {
+          "description": "LCD RS connected to D12",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:RS",
+          "to": "uno1:12"
+        },
+        {
+          "description": "LCD RW connected to GND",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:RW",
+          "to": "uno1:GND"
+        },
+        {
+          "description": "LCD E connected to D11",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:E",
+          "to": "uno1:11"
+        },
+        {
+          "description": "LCD D4 connected to D5",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:D4",
+          "to": "uno1:5"
+        },
+        {
+          "description": "LCD D5 connected to D4",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:D5",
+          "to": "uno1:4"
+        },
+        {
+          "description": "LCD D6 connected to D3",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:D6",
+          "to": "uno1:3"
+        },
+        {
+          "description": "LCD D7 connected to D2",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:D7",
+          "to": "uno1:2"
+        },
+        {
+          "description": "LCD backlight anode connected to 5V",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:A",
+          "to": "uno1:5V"
+        },
+        {
+          "description": "LCD backlight cathode connected to GND",
+          "required": true,
+          "type": "connection",
+          "from": "lcd_1:K",
+          "to": "uno1:GND"
+        }
+      ]
+    },
+    "codeFunctionality": {
+      "weight": 0.5,
+      "description": "Arduino code that meets the expected behavior for LCD scrolling text",
+      "requiredFunctions": [
+        "LiquidCrystal",
+        "lcd.begin",
+        "lcd.print",
+        "lcd.scrollDisplayLeft"
+      ],
+      "checks": [
+        {
+          "description": "LiquidCrystal library included",
+          "required": true,
+          "type": "code",
+          "pattern": "#include\\s*<LiquidCrystal\\.h>"
+        },
+        {
+          "description": "LCD initialized with correct pins (12, 11, 5, 4, 3, 2)",
+          "required": true,
+          "type": "code",
+          "pattern": "LiquidCrystal\\s+lcd\\s*\\(\\s*12\\s*,\\s*11\\s*,\\s*5\\s*,\\s*4\\s*,\\s*3\\s*,\\s*2\\s*\\)"
+        },
+        {
+          "description": "LCD dimensions set to 16x2",
+          "required": true,
+          "type": "code",
+          "pattern": "lcd\\.begin\\s*\\(\\s*16\\s*,\\s*2\\s*\\)"
+        },
+        {
+          "description": "Text displayed on LCD",
+          "required": true,
+          "type": "code",
+          "pattern": "lcd\\.print\\s*\\("
+        },
+        {
+          "description": "Text scrolled using scrollDisplayLeft",
+          "required": true,
+          "type": "code",
+          "pattern": "scrollDisplayLeft"
+        }
+      ]
+    },
+    "components": {
+      "weight": 0.2,
+      "description": "Required components for the circuit",
+      "required": [
+        {
+          "type": "arduino",
+          "count": 1
+        },
+        {
+          "type": "lcd1602",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "demoImages": [
+    {
+      "id": "circuit-layout",
+      "name": "Circuit Layout",
+      "filename": "circuit.png",
+      "description": "Expected component placement and wiring"
+    }
+  ],
+  "scoring": {
+    "wiring": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All wiring connections are correct."
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most wiring connections are correct."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing or incorrect wiring connections."
+      }
+    },
+    "codeFunctionality": {
+      "excellent": {
+        "min": 90,
+        "feedback": "Code meets all expected requirements."
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Code meets most requirements with minor issues."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Code needs significant improvement."
+      }
+    },
+    "components": {
+      "excellent": {
+        "min": 90,
+        "feedback": "All required components are present!"
+      },
+      "good": {
+        "min": 75,
+        "feedback": "Most required components are present."
+      },
+      "needsImprovement": {
+        "min": 0,
+        "feedback": "Missing one or more required components."
+      }
+    }
+  }
+}

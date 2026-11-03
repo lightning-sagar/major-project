@@ -1,0 +1,55 @@
+{
+    "type": "openhw-slide-potentiometer",
+    "label": "Linear Potentiometer",
+    "description": "Linear slide potentiometer. Outputs a variable analog voltage as the slider moves along a linear track. Use with analogRead() for position sensing.",
+    "group": "Sensors",
+    "w": 205,
+    "h": 110,
+    "attrs": {
+        "value": "50"
+    },
+    "telemetry": {
+        "template": "value=${state.value}",
+        "criticalKeys": [
+            "state.value"
+        ]
+    },
+    "pins": [
+        {
+            "id": "GND",
+            "x": 195,
+            "y": 45,
+            "type": "power",
+            "description": "Ground"
+        },
+        {
+            "id": "SIG",
+            "x": 0,
+            "y": 60,
+            "type": "analog",
+            "description": "Signal Output"
+        },
+        {
+            "id": "VCC",
+            "x": 0,
+            "y": 45,
+            "type": "power",
+            "description": "5V Power"
+        }
+    ],
+    "autowiring": {
+      "connections": [
+        { "from": "GND", "to": "arduino:GND" },
+        { "from": "VCC", "to": "arduino:5V" },
+        { "from": "SIG", "to": "arduino:A0" }
+      ]
+    },
+    "autocoding": {
+      "libraries": [],
+      "arduino": {
+        "globals": "const int slidePin_${COMP_SUFFIX} = A0;",
+        "setup": "Serial.begin(9600);",
+        "loop": "int val_${COMP_SUFFIX} = analogRead(slidePin_${COMP_SUFFIX});\nSerial.print(\"Slide: \");\nSerial.println(val_${COMP_SUFFIX});\ndelay(500);"
+      }
+    }
+}
